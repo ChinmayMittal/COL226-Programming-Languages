@@ -1,0 +1,7 @@
+program test::
+    var A, B: int;
+    var E: bool;
+{
+     E :=  2 <4  ; 
+}
+ 
