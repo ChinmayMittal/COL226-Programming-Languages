@@ -1,0 +1,13 @@
+Library
+    structure My
+is
+    datatypes.sml  (* Lot of datatypes *)
+    my.lex         (* Lexer rules. *)
+    my.yacc:MLYacc (* Parser rules. *)
+    glue.sml       (* Build the parser *)
+    while_ast.sml (* Lex, parse *)
+    $/basis.cm (* SML/NJ’s Basis Library. *)
+    $/ml-yacc-lib.cm (* Code written by Lucent. *)
+    $smlnj/compiler/compiler.cm (* Structure Compiler. *)
+    $/smlnj-lib.cm (* for hashtable *)
+
