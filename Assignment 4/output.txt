@@ -1,0 +1,2 @@
+A.true.SET.B.A.true.and.false.or.SET.C.true.A.and.false.B.or.true.not.and.or.SET.C.WRITE.true.A.false.B.or.or.and.true.not.and.5.2.lt.and.WRITE.C.3.5.times.6.plus.19.2.neg.plus.gt.and.true.and.5.9.neq.and.WRITE
+101

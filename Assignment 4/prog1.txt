@@ -1,0 +1,14 @@
+program isEven ::
+    var A: int;
+    var isEven  : bool;
+{
+     read A ;
+     if( (A % 2 )  = 0 ) then 
+     {
+         isEven := tt ; 
+     } else {
+         isEven := ff  ; 
+     } endif ; 
+     write isEven ; 
+
+}

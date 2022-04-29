@@ -1,0 +1,27 @@
+program isPrime ::
+    var A , B  , C : int;
+    var isPrime , break  : bool;
+{
+     read A ;
+     break := ff ; 
+     if( (A = 0 ) || ( A = 1 )) then 
+     {
+         isPrime := ff ; 
+     }else {
+         B := 2 ; 
+         C := A - 1 ; 
+         isPrime := tt ; 
+         while( B <= C && (! break) ) do {
+            if( (A % B) = 0 ) then {
+                isPrime := ff ; 
+                break := tt ; 
+            }else{
+                B := B + 1 ; 
+            } endif ; 
+         } endwh ; 
+
+     } endif ;
+
+     write isPrime ;  
+
+}

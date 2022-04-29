@@ -1,0 +1,14 @@
+program factorial ::
+    var A, B : int;
+    var E: bool;
+{
+     read A ;
+     B := 1 ;  
+     while( A >= 1 ) do {
+         B := B * A ; 
+         A := A - 1 ; 
+     } endwh ; 
+     write B ; 
+
+}
+ 

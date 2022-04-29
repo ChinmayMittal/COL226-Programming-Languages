@@ -1,0 +1,1346 @@
+
+state 0:
+
+	start : . PROGRAM IDENTIFIER PROGSTART blk 
+
+	PROGRAM	shift 1
+
+	start	goto 81
+
+	.	error
+
+
+state 1:
+
+	start : PROGRAM . IDENTIFIER PROGSTART blk 
+
+	IDENTIFIER	shift 2
+
+
+	.	error
+
+
+state 2:
+
+	start : PROGRAM IDENTIFIER . PROGSTART blk 
+
+	PROGSTART	shift 3
+
+
+	.	error
+
+
+state 3:
+
+	start : PROGRAM IDENTIFIER PROGSTART . blk 
+
+	VAR	shift 7
+
+	blk	goto 6
+	decseq	goto 5
+	dec	goto 4
+
+	.	reduce by rule 2
+
+
+state 4:
+
+	decseq : dec . decseq 
+
+	VAR	shift 7
+
+	decseq	goto 8
+	dec	goto 4
+
+	.	reduce by rule 2
+
+
+state 5:
+
+	blk : decseq . comseq 
+
+	LBRACE	shift 10
+
+	comseq	goto 9
+
+	.	error
+
+
+state 6:
+
+	start : PROGRAM IDENTIFIER PROGSTART blk .  (reduce by rule 0)
+
+
+
+	.	reduce by rule 0
+
+
+state 7:
+
+	dec : VAR . varlist COLON typedec SEMICOLON 
+
+	IDENTIFIER	shift 12
+
+	varlist	goto 11
+
+	.	error
+
+
+state 8:
+
+	decseq : dec decseq .  (reduce by rule 3)
+
+
+
+	.	reduce by rule 3
+
+
+state 9:
+
+	blk : decseq comseq .  (reduce by rule 1)
+
+
+
+	.	reduce by rule 1
+
+
+state 10:
+
+	comseq : LBRACE . commands RBRACE 
+
+	IF	shift 19
+	WHILE	shift 18
+	READ	shift 17
+	WRITE	shift 16
+	IDENTIFIER	shift 15
+
+	commands	goto 14
+	command	goto 13
+
+	.	reduce by rule 5
+
+
+state 11:
+
+	dec : VAR varlist . COLON typedec SEMICOLON 
+
+	COLON	shift 20
+
+
+	.	error
+
+
+state 12:
+
+	varlist : IDENTIFIER .  (reduce by rule 8)
+	varlist : IDENTIFIER . COMMA varlist 
+
+	COMMA	shift 21
+
+
+	.	reduce by rule 8
+
+
+state 13:
+
+	commands : command . SEMICOLON commands 
+
+	SEMICOLON	shift 22
+
+
+	.	error
+
+
+state 14:
+
+	comseq : LBRACE commands . RBRACE 
+
+	RBRACE	shift 23
+
+
+	.	error
+
+
+state 15:
+
+	command : IDENTIFIER . ASSIGN expression 
+
+	ASSIGN	shift 24
+
+
+	.	error
+
+
+state 16:
+
+	command : WRITE . expression 
+
+	LPAREN	shift 32
+	NOT	shift 31
+	TRUE	shift 30
+	FALSE	shift 29
+	NEG	shift 28
+	POSNUMERAL	shift 27
+	IDENTIFIER	shift 26
+
+	expression	goto 25
+
+	.	error
+
+
+state 17:
+
+	command : READ . IDENTIFIER 
+
+	IDENTIFIER	shift 33
+
+
+	.	error
+
+
+state 18:
+
+	command : WHILE . expression DO comseq ENDWH 
+
+	LPAREN	shift 32
+	NOT	shift 31
+	TRUE	shift 30
+	FALSE	shift 29
+	NEG	shift 28
+	POSNUMERAL	shift 27
+	IDENTIFIER	shift 26
+
+	expression	goto 34
+
+	.	error
+
+
+state 19:
+
+	command : IF . expression THEN comseq ELSE comseq ENDIF 
+
+	LPAREN	shift 32
+	NOT	shift 31
+	TRUE	shift 30
+	FALSE	shift 29
+	NEG	shift 28
+	POSNUMERAL	shift 27
+	IDENTIFIER	shift 26
+
+	expression	goto 35
+
+	.	error
+
+
+state 20:
+
+	dec : VAR varlist COLON . typedec SEMICOLON 
+
+	INT	shift 38
+	BOOL	shift 37
+
+	typedec	goto 36
+
+	.	error
+
+
+state 21:
+
+	varlist : IDENTIFIER COMMA . varlist 
+
+	IDENTIFIER	shift 12
+
+	varlist	goto 39
+
+	.	error
+
+
+state 22:
+
+	commands : command SEMICOLON . commands 
+
+	IF	shift 19
+	WHILE	shift 18
+	READ	shift 17
+	WRITE	shift 16
+	IDENTIFIER	shift 15
+
+	commands	goto 40
+	command	goto 13
+
+	.	reduce by rule 5
+
+
+state 23:
+
+	comseq : LBRACE commands RBRACE .  (reduce by rule 4)
+
+
+
+	.	reduce by rule 4
+
+
+state 24:
+
+	command : IDENTIFIER ASSIGN . expression 
+
+	LPAREN	shift 32
+	NOT	shift 31
+	TRUE	shift 30
+	FALSE	shift 29
+	NEG	shift 28
+	POSNUMERAL	shift 27
+	IDENTIFIER	shift 26
+
+	expression	goto 41
+
+	.	error
+
+
+state 25:
+
+	command : WRITE expression .  (reduce by rule 13)
+	expression : expression . LEQ expression 
+	expression : expression . LT expression 
+	expression : expression . EQ expression 
+	expression : expression . NEQ expression 
+	expression : expression . GT expression 
+	expression : expression . GEQ expression 
+	expression : expression . PLUS expression 
+	expression : expression . MINUS expression 
+	expression : expression . TIMES expression 
+	expression : expression . DIV expression 
+	expression : expression . MOD expression 
+	expression : expression . AND expression 
+	expression : expression . OR expression 
+
+	LT	shift 54
+	LEQ	shift 53
+	NEQ	shift 52
+	EQ	shift 51
+	GT	shift 50
+	GEQ	shift 49
+	PLUS	shift 48
+	MINUS	shift 47
+	TIMES	shift 46
+	DIV	shift 45
+	MOD	shift 44
+	AND	shift 43
+	OR	shift 42
+
+
+	.	reduce by rule 13
+
+
+state 26:
+
+	expression : IDENTIFIER .  (reduce by rule 35)
+
+
+
+	.	reduce by rule 35
+
+
+state 27:
+
+	expression : POSNUMERAL .  (reduce by rule 34)
+
+
+
+	.	reduce by rule 34
+
+
+state 28:
+
+	expression : NEG . expression 
+
+	LPAREN	shift 32
+	NOT	shift 31
+	TRUE	shift 30
+	FALSE	shift 29
+	NEG	shift 28
+	POSNUMERAL	shift 27
+	IDENTIFIER	shift 26
+
+	expression	goto 55
+
+	.	error
+
+
+state 29:
+
+	expression : FALSE .  (reduce by rule 33)
+
+
+
+	.	reduce by rule 33
+
+
+state 30:
+
+	expression : TRUE .  (reduce by rule 32)
+
+
+
+	.	reduce by rule 32
+
+
+state 31:
+
+	expression : NOT . expression 
+
+	LPAREN	shift 32
+	NOT	shift 31
+	TRUE	shift 30
+	FALSE	shift 29
+	NEG	shift 28
+	POSNUMERAL	shift 27
+	IDENTIFIER	shift 26
+
+	expression	goto 56
+
+	.	error
+
+
+state 32:
+
+	expression : LPAREN . expression RPAREN 
+
+	LPAREN	shift 32
+	NOT	shift 31
+	TRUE	shift 30
+	FALSE	shift 29
+	NEG	shift 28
+	POSNUMERAL	shift 27
+	IDENTIFIER	shift 26
+
+	expression	goto 57
+
+	.	error
+
+
+state 33:
+
+	command : READ IDENTIFIER .  (reduce by rule 12)
+
+
+
+	.	reduce by rule 12
+
+
+state 34:
+
+	command : WHILE expression . DO comseq ENDWH 
+	expression : expression . LEQ expression 
+	expression : expression . LT expression 
+	expression : expression . EQ expression 
+	expression : expression . NEQ expression 
+	expression : expression . GT expression 
+	expression : expression . GEQ expression 
+	expression : expression . PLUS expression 
+	expression : expression . MINUS expression 
+	expression : expression . TIMES expression 
+	expression : expression . DIV expression 
+	expression : expression . MOD expression 
+	expression : expression . AND expression 
+	expression : expression . OR expression 
+
+	DO	shift 58
+	LT	shift 54
+	LEQ	shift 53
+	NEQ	shift 52
+	EQ	shift 51
+	GT	shift 50
+	GEQ	shift 49
+	PLUS	shift 48
+	MINUS	shift 47
+	TIMES	shift 46
+	DIV	shift 45
+	MOD	shift 44
+	AND	shift 43
+	OR	shift 42
+
+
+	.	error
+
+
+state 35:
+
+	command : IF expression . THEN comseq ELSE comseq ENDIF 
+	expression : expression . LEQ expression 
+	expression : expression . LT expression 
+	expression : expression . EQ expression 
+	expression : expression . NEQ expression 
+	expression : expression . GT expression 
+	expression : expression . GEQ expression 
+	expression : expression . PLUS expression 
+	expression : expression . MINUS expression 
+	expression : expression . TIMES expression 
+	expression : expression . DIV expression 
+	expression : expression . MOD expression 
+	expression : expression . AND expression 
+	expression : expression . OR expression 
+
+	THEN	shift 59
+	LT	shift 54
+	LEQ	shift 53
+	NEQ	shift 52
+	EQ	shift 51
+	GT	shift 50
+	GEQ	shift 49
+	PLUS	shift 48
+	MINUS	shift 47
+	TIMES	shift 46
+	DIV	shift 45
+	MOD	shift 44
+	AND	shift 43
+	OR	shift 42
+
+
+	.	error
+
+
+state 36:
+
+	dec : VAR varlist COLON typedec . SEMICOLON 
+
+	SEMICOLON	shift 60
+
+
+	.	error
+
+
+state 37:
+
+	typedec : BOOL .  (reduce by rule 11)
+
+
+
+	.	reduce by rule 11
+
+
+state 38:
+
+	typedec : INT .  (reduce by rule 10)
+
+
+
+	.	reduce by rule 10
+
+
+state 39:
+
+	varlist : IDENTIFIER COMMA varlist .  (reduce by rule 9)
+
+
+
+	.	reduce by rule 9
+
+
+state 40:
+
+	commands : command SEMICOLON commands .  (reduce by rule 6)
+
+
+
+	.	reduce by rule 6
+
+
+state 41:
+
+	command : IDENTIFIER ASSIGN expression .  (reduce by rule 14)
+	expression : expression . LEQ expression 
+	expression : expression . LT expression 
+	expression : expression . EQ expression 
+	expression : expression . NEQ expression 
+	expression : expression . GT expression 
+	expression : expression . GEQ expression 
+	expression : expression . PLUS expression 
+	expression : expression . MINUS expression 
+	expression : expression . TIMES expression 
+	expression : expression . DIV expression 
+	expression : expression . MOD expression 
+	expression : expression . AND expression 
+	expression : expression . OR expression 
+
+	LT	shift 54
+	LEQ	shift 53
+	NEQ	shift 52
+	EQ	shift 51
+	GT	shift 50
+	GEQ	shift 49
+	PLUS	shift 48
+	MINUS	shift 47
+	TIMES	shift 46
+	DIV	shift 45
+	MOD	shift 44
+	AND	shift 43
+	OR	shift 42
+
+
+	.	reduce by rule 14
+
+
+state 42:
+
+	expression : expression OR . expression 
+
+	LPAREN	shift 32
+	NOT	shift 31
+	TRUE	shift 30
+	FALSE	shift 29
+	NEG	shift 28
+	POSNUMERAL	shift 27
+	IDENTIFIER	shift 26
+
+	expression	goto 61
+
+	.	error
+
+
+state 43:
+
+	expression : expression AND . expression 
+
+	LPAREN	shift 32
+	NOT	shift 31
+	TRUE	shift 30
+	FALSE	shift 29
+	NEG	shift 28
+	POSNUMERAL	shift 27
+	IDENTIFIER	shift 26
+
+	expression	goto 62
+
+	.	error
+
+
+state 44:
+
+	expression : expression MOD . expression 
+
+	LPAREN	shift 32
+	NOT	shift 31
+	TRUE	shift 30
+	FALSE	shift 29
+	NEG	shift 28
+	POSNUMERAL	shift 27
+	IDENTIFIER	shift 26
+
+	expression	goto 63
+
+	.	error
+
+
+state 45:
+
+	expression : expression DIV . expression 
+
+	LPAREN	shift 32
+	NOT	shift 31
+	TRUE	shift 30
+	FALSE	shift 29
+	NEG	shift 28
+	POSNUMERAL	shift 27
+	IDENTIFIER	shift 26
+
+	expression	goto 64
+
+	.	error
+
+
+state 46:
+
+	expression : expression TIMES . expression 
+
+	LPAREN	shift 32
+	NOT	shift 31
+	TRUE	shift 30
+	FALSE	shift 29
+	NEG	shift 28
+	POSNUMERAL	shift 27
+	IDENTIFIER	shift 26
+
+	expression	goto 65
+
+	.	error
+
+
+state 47:
+
+	expression : expression MINUS . expression 
+
+	LPAREN	shift 32
+	NOT	shift 31
+	TRUE	shift 30
+	FALSE	shift 29
+	NEG	shift 28
+	POSNUMERAL	shift 27
+	IDENTIFIER	shift 26
+
+	expression	goto 66
+
+	.	error
+
+
+state 48:
+
+	expression : expression PLUS . expression 
+
+	LPAREN	shift 32
+	NOT	shift 31
+	TRUE	shift 30
+	FALSE	shift 29
+	NEG	shift 28
+	POSNUMERAL	shift 27
+	IDENTIFIER	shift 26
+
+	expression	goto 67
+
+	.	error
+
+
+state 49:
+
+	expression : expression GEQ . expression 
+
+	LPAREN	shift 32
+	NOT	shift 31
+	TRUE	shift 30
+	FALSE	shift 29
+	NEG	shift 28
+	POSNUMERAL	shift 27
+	IDENTIFIER	shift 26
+
+	expression	goto 68
+
+	.	error
+
+
+state 50:
+
+	expression : expression GT . expression 
+
+	LPAREN	shift 32
+	NOT	shift 31
+	TRUE	shift 30
+	FALSE	shift 29
+	NEG	shift 28
+	POSNUMERAL	shift 27
+	IDENTIFIER	shift 26
+
+	expression	goto 69
+
+	.	error
+
+
+state 51:
+
+	expression : expression EQ . expression 
+
+	LPAREN	shift 32
+	NOT	shift 31
+	TRUE	shift 30
+	FALSE	shift 29
+	NEG	shift 28
+	POSNUMERAL	shift 27
+	IDENTIFIER	shift 26
+
+	expression	goto 70
+
+	.	error
+
+
+state 52:
+
+	expression : expression NEQ . expression 
+
+	LPAREN	shift 32
+	NOT	shift 31
+	TRUE	shift 30
+	FALSE	shift 29
+	NEG	shift 28
+	POSNUMERAL	shift 27
+	IDENTIFIER	shift 26
+
+	expression	goto 71
+
+	.	error
+
+
+state 53:
+
+	expression : expression LEQ . expression 
+
+	LPAREN	shift 32
+	NOT	shift 31
+	TRUE	shift 30
+	FALSE	shift 29
+	NEG	shift 28
+	POSNUMERAL	shift 27
+	IDENTIFIER	shift 26
+
+	expression	goto 72
+
+	.	error
+
+
+state 54:
+
+	expression : expression LT . expression 
+
+	LPAREN	shift 32
+	NOT	shift 31
+	TRUE	shift 30
+	FALSE	shift 29
+	NEG	shift 28
+	POSNUMERAL	shift 27
+	IDENTIFIER	shift 26
+
+	expression	goto 73
+
+	.	error
+
+
+state 55:
+
+	expression : expression . LEQ expression 
+	expression : expression . LT expression 
+	expression : expression . EQ expression 
+	expression : expression . NEQ expression 
+	expression : expression . GT expression 
+	expression : expression . GEQ expression 
+	expression : expression . PLUS expression 
+	expression : expression . MINUS expression 
+	expression : expression . TIMES expression 
+	expression : expression . DIV expression 
+	expression : expression . MOD expression 
+	expression : expression . AND expression 
+	expression : expression . OR expression 
+	expression : NEG expression .  (reduce by rule 31)
+
+
+
+	.	reduce by rule 31
+
+
+state 56:
+
+	expression : expression . LEQ expression 
+	expression : expression . LT expression 
+	expression : expression . EQ expression 
+	expression : expression . NEQ expression 
+	expression : expression . GT expression 
+	expression : expression . GEQ expression 
+	expression : expression . PLUS expression 
+	expression : expression . MINUS expression 
+	expression : expression . TIMES expression 
+	expression : expression . DIV expression 
+	expression : expression . MOD expression 
+	expression : expression . AND expression 
+	expression : expression . OR expression 
+	expression : NOT expression .  (reduce by rule 36)
+
+
+
+	.	reduce by rule 36
+
+
+state 57:
+
+	expression : expression . LEQ expression 
+	expression : expression . LT expression 
+	expression : expression . EQ expression 
+	expression : expression . NEQ expression 
+	expression : expression . GT expression 
+	expression : expression . GEQ expression 
+	expression : expression . PLUS expression 
+	expression : expression . MINUS expression 
+	expression : expression . TIMES expression 
+	expression : expression . DIV expression 
+	expression : expression . MOD expression 
+	expression : expression . AND expression 
+	expression : expression . OR expression 
+	expression : LPAREN expression . RPAREN 
+
+	RPAREN	shift 74
+	LT	shift 54
+	LEQ	shift 53
+	NEQ	shift 52
+	EQ	shift 51
+	GT	shift 50
+	GEQ	shift 49
+	PLUS	shift 48
+	MINUS	shift 47
+	TIMES	shift 46
+	DIV	shift 45
+	MOD	shift 44
+	AND	shift 43
+	OR	shift 42
+
+
+	.	error
+
+
+state 58:
+
+	command : WHILE expression DO . comseq ENDWH 
+
+	LBRACE	shift 10
+
+	comseq	goto 75
+
+	.	error
+
+
+state 59:
+
+	command : IF expression THEN . comseq ELSE comseq ENDIF 
+
+	LBRACE	shift 10
+
+	comseq	goto 76
+
+	.	error
+
+
+state 60:
+
+	dec : VAR varlist COLON typedec SEMICOLON .  (reduce by rule 7)
+
+
+
+	.	reduce by rule 7
+
+
+state 61:
+
+	expression : expression . LEQ expression 
+	expression : expression . LT expression 
+	expression : expression . EQ expression 
+	expression : expression . NEQ expression 
+	expression : expression . GT expression 
+	expression : expression . GEQ expression 
+	expression : expression . PLUS expression 
+	expression : expression . MINUS expression 
+	expression : expression . TIMES expression 
+	expression : expression . DIV expression 
+	expression : expression . MOD expression 
+	expression : expression . AND expression 
+	expression : expression . OR expression 
+	expression : expression OR expression .  (reduce by rule 29)
+
+	LT	shift 54
+	LEQ	shift 53
+	NEQ	shift 52
+	EQ	shift 51
+	GT	shift 50
+	GEQ	shift 49
+	PLUS	shift 48
+	MINUS	shift 47
+	TIMES	shift 46
+	DIV	shift 45
+	MOD	shift 44
+	AND	shift 43
+
+
+	.	reduce by rule 29
+
+
+state 62:
+
+	expression : expression . LEQ expression 
+	expression : expression . LT expression 
+	expression : expression . EQ expression 
+	expression : expression . NEQ expression 
+	expression : expression . GT expression 
+	expression : expression . GEQ expression 
+	expression : expression . PLUS expression 
+	expression : expression . MINUS expression 
+	expression : expression . TIMES expression 
+	expression : expression . DIV expression 
+	expression : expression . MOD expression 
+	expression : expression . AND expression 
+	expression : expression AND expression .  (reduce by rule 28)
+	expression : expression . OR expression 
+
+	LT	shift 54
+	LEQ	shift 53
+	NEQ	shift 52
+	EQ	shift 51
+	GT	shift 50
+	GEQ	shift 49
+	PLUS	shift 48
+	MINUS	shift 47
+	TIMES	shift 46
+	DIV	shift 45
+	MOD	shift 44
+
+
+	.	reduce by rule 28
+
+
+state 63:
+
+	expression : expression . LEQ expression 
+	expression : expression . LT expression 
+	expression : expression . EQ expression 
+	expression : expression . NEQ expression 
+	expression : expression . GT expression 
+	expression : expression . GEQ expression 
+	expression : expression . PLUS expression 
+	expression : expression . MINUS expression 
+	expression : expression . TIMES expression 
+	expression : expression . DIV expression 
+	expression : expression . MOD expression 
+	expression : expression MOD expression .  (reduce by rule 27)
+	expression : expression . AND expression 
+	expression : expression . OR expression 
+
+
+
+	.	reduce by rule 27
+
+
+state 64:
+
+	expression : expression . LEQ expression 
+	expression : expression . LT expression 
+	expression : expression . EQ expression 
+	expression : expression . NEQ expression 
+	expression : expression . GT expression 
+	expression : expression . GEQ expression 
+	expression : expression . PLUS expression 
+	expression : expression . MINUS expression 
+	expression : expression . TIMES expression 
+	expression : expression . DIV expression 
+	expression : expression DIV expression .  (reduce by rule 26)
+	expression : expression . MOD expression 
+	expression : expression . AND expression 
+	expression : expression . OR expression 
+
+
+
+	.	reduce by rule 26
+
+
+state 65:
+
+	expression : expression . LEQ expression 
+	expression : expression . LT expression 
+	expression : expression . EQ expression 
+	expression : expression . NEQ expression 
+	expression : expression . GT expression 
+	expression : expression . GEQ expression 
+	expression : expression . PLUS expression 
+	expression : expression . MINUS expression 
+	expression : expression . TIMES expression 
+	expression : expression TIMES expression .  (reduce by rule 25)
+	expression : expression . DIV expression 
+	expression : expression . MOD expression 
+	expression : expression . AND expression 
+	expression : expression . OR expression 
+
+
+
+	.	reduce by rule 25
+
+
+state 66:
+
+	expression : expression . LEQ expression 
+	expression : expression . LT expression 
+	expression : expression . EQ expression 
+	expression : expression . NEQ expression 
+	expression : expression . GT expression 
+	expression : expression . GEQ expression 
+	expression : expression . PLUS expression 
+	expression : expression . MINUS expression 
+	expression : expression MINUS expression .  (reduce by rule 24)
+	expression : expression . TIMES expression 
+	expression : expression . DIV expression 
+	expression : expression . MOD expression 
+	expression : expression . AND expression 
+	expression : expression . OR expression 
+
+	TIMES	shift 46
+	DIV	shift 45
+	MOD	shift 44
+
+
+	.	reduce by rule 24
+
+
+state 67:
+
+	expression : expression . LEQ expression 
+	expression : expression . LT expression 
+	expression : expression . EQ expression 
+	expression : expression . NEQ expression 
+	expression : expression . GT expression 
+	expression : expression . GEQ expression 
+	expression : expression . PLUS expression 
+	expression : expression PLUS expression .  (reduce by rule 23)
+	expression : expression . MINUS expression 
+	expression : expression . TIMES expression 
+	expression : expression . DIV expression 
+	expression : expression . MOD expression 
+	expression : expression . AND expression 
+	expression : expression . OR expression 
+
+	TIMES	shift 46
+	DIV	shift 45
+	MOD	shift 44
+
+
+	.	reduce by rule 23
+
+
+state 68:
+
+	expression : expression . LEQ expression 
+	expression : expression . LT expression 
+	expression : expression . EQ expression 
+	expression : expression . NEQ expression 
+	expression : expression . GT expression 
+	expression : expression . GEQ expression 
+	expression : expression GEQ expression .  (reduce by rule 22)
+	expression : expression . PLUS expression 
+	expression : expression . MINUS expression 
+	expression : expression . TIMES expression 
+	expression : expression . DIV expression 
+	expression : expression . MOD expression 
+	expression : expression . AND expression 
+	expression : expression . OR expression 
+
+	PLUS	shift 48
+	MINUS	shift 47
+	TIMES	shift 46
+	DIV	shift 45
+	MOD	shift 44
+
+
+	.	reduce by rule 22
+
+
+state 69:
+
+	expression : expression . LEQ expression 
+	expression : expression . LT expression 
+	expression : expression . EQ expression 
+	expression : expression . NEQ expression 
+	expression : expression . GT expression 
+	expression : expression GT expression .  (reduce by rule 21)
+	expression : expression . GEQ expression 
+	expression : expression . PLUS expression 
+	expression : expression . MINUS expression 
+	expression : expression . TIMES expression 
+	expression : expression . DIV expression 
+	expression : expression . MOD expression 
+	expression : expression . AND expression 
+	expression : expression . OR expression 
+
+	PLUS	shift 48
+	MINUS	shift 47
+	TIMES	shift 46
+	DIV	shift 45
+	MOD	shift 44
+
+
+	.	reduce by rule 21
+
+
+state 70:
+
+	expression : expression . LEQ expression 
+	expression : expression . LT expression 
+	expression : expression . EQ expression 
+	expression : expression EQ expression .  (reduce by rule 19)
+	expression : expression . NEQ expression 
+	expression : expression . GT expression 
+	expression : expression . GEQ expression 
+	expression : expression . PLUS expression 
+	expression : expression . MINUS expression 
+	expression : expression . TIMES expression 
+	expression : expression . DIV expression 
+	expression : expression . MOD expression 
+	expression : expression . AND expression 
+	expression : expression . OR expression 
+
+	LT	shift 54
+	LEQ	shift 53
+	GT	shift 50
+	GEQ	shift 49
+	PLUS	shift 48
+	MINUS	shift 47
+	TIMES	shift 46
+	DIV	shift 45
+	MOD	shift 44
+
+
+	.	reduce by rule 19
+
+
+state 71:
+
+	expression : expression . LEQ expression 
+	expression : expression . LT expression 
+	expression : expression . EQ expression 
+	expression : expression . NEQ expression 
+	expression : expression NEQ expression .  (reduce by rule 20)
+	expression : expression . GT expression 
+	expression : expression . GEQ expression 
+	expression : expression . PLUS expression 
+	expression : expression . MINUS expression 
+	expression : expression . TIMES expression 
+	expression : expression . DIV expression 
+	expression : expression . MOD expression 
+	expression : expression . AND expression 
+	expression : expression . OR expression 
+
+	LT	shift 54
+	LEQ	shift 53
+	GT	shift 50
+	GEQ	shift 49
+	PLUS	shift 48
+	MINUS	shift 47
+	TIMES	shift 46
+	DIV	shift 45
+	MOD	shift 44
+
+
+	.	reduce by rule 20
+
+
+state 72:
+
+	expression : expression . LEQ expression 
+	expression : expression LEQ expression .  (reduce by rule 17)
+	expression : expression . LT expression 
+	expression : expression . EQ expression 
+	expression : expression . NEQ expression 
+	expression : expression . GT expression 
+	expression : expression . GEQ expression 
+	expression : expression . PLUS expression 
+	expression : expression . MINUS expression 
+	expression : expression . TIMES expression 
+	expression : expression . DIV expression 
+	expression : expression . MOD expression 
+	expression : expression . AND expression 
+	expression : expression . OR expression 
+
+	PLUS	shift 48
+	MINUS	shift 47
+	TIMES	shift 46
+	DIV	shift 45
+	MOD	shift 44
+
+
+	.	reduce by rule 17
+
+
+state 73:
+
+	expression : expression . LEQ expression 
+	expression : expression . LT expression 
+	expression : expression LT expression .  (reduce by rule 18)
+	expression : expression . EQ expression 
+	expression : expression . NEQ expression 
+	expression : expression . GT expression 
+	expression : expression . GEQ expression 
+	expression : expression . PLUS expression 
+	expression : expression . MINUS expression 
+	expression : expression . TIMES expression 
+	expression : expression . DIV expression 
+	expression : expression . MOD expression 
+	expression : expression . AND expression 
+	expression : expression . OR expression 
+
+	PLUS	shift 48
+	MINUS	shift 47
+	TIMES	shift 46
+	DIV	shift 45
+	MOD	shift 44
+
+
+	.	reduce by rule 18
+
+
+state 74:
+
+	expression : LPAREN expression RPAREN .  (reduce by rule 30)
+
+
+
+	.	reduce by rule 30
+
+
+state 75:
+
+	command : WHILE expression DO comseq . ENDWH 
+
+	ENDWH	shift 77
+
+
+	.	error
+
+
+state 76:
+
+	command : IF expression THEN comseq . ELSE comseq ENDIF 
+
+	ELSE	shift 78
+
+
+	.	error
+
+
+state 77:
+
+	command : WHILE expression DO comseq ENDWH .  (reduce by rule 16)
+
+
+
+	.	reduce by rule 16
+
+
+state 78:
+
+	command : IF expression THEN comseq ELSE . comseq ENDIF 
+
+	LBRACE	shift 10
+
+	comseq	goto 79
+
+	.	error
+
+
+state 79:
+
+	command : IF expression THEN comseq ELSE comseq . ENDIF 
+
+	ENDIF	shift 80
+
+
+	.	error
+
+
+state 80:
+
+	command : IF expression THEN comseq ELSE comseq ENDIF .  (reduce by rule 15)
+
+
+
+	.	reduce by rule 15
+
+
+state 81:
+
+
+	EOF	accept
+
+
+	.	error
+
+166 of 391 action table entries left after compaction
+37 goto table entries
