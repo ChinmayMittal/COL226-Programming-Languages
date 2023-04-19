@@ -1,3 +1,7 @@
+### EBNF for the While Programming Language
+
+![EBNF](./EBNF.png)
+
 ### Running the program
 ---
 On the command line go inside the directory of the assignment and type 
